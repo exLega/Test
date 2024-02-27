@@ -1,0 +1,598 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище BaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="doctor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="35" />
+          <Property Name="surname" Type="nvarchar" MaxLength="50" />
+          <Property Name="father_name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="event">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="doctor_id" Type="int" />
+          <Property Name="date_execution" Type="date" />
+          <Property Name="result" Type="nvarchar(max)" />
+          <Property Name="recomendation" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Host">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pacient_id" Type="int" />
+          <Property Name="code" Type="int" />
+          <Property Name="dateTimeBegin" Type="datetime" />
+          <Property Name="dateTimeEnd" Type="datetime" />
+          <Property Name="departament" Type="nvarchar" MaxLength="50" />
+          <Property Name="diagnos" Type="nvarchar" MaxLength="50" />
+          <Property Name="goal" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="insurance_policy">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="number" Type="nchar" MaxLength="10" />
+          <Property Name="date_endings" Type="date" />
+          <Property Name="company" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="med_card">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pacient_id" Type="int" />
+          <Property Name="med_history_id" Type="int" />
+          <Property Name="number" Type="int" />
+          <Property Name="date_issuance" Type="date" />
+        </EntityType>
+        <EntityType Name="med_history">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="date_appeals" Type="date" />
+          <Property Name="event" Type="int" />
+          <Property Name="diagnos" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="pacient">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pasport_id" Type="int" />
+          <Property Name="insurance_id" Type="int" />
+          <Property Name="phone" Type="int" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="address" Type="nvarchar(max)" />
+          <Property Name="place_work" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="pasport">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="35" />
+          <Property Name="surname" Type="nvarchar" MaxLength="35" />
+          <Property Name="father_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="date_birth" Type="date" />
+          <Property Name="gender" Type="nchar" MaxLength="1" />
+          <Property Name="number" Type="int" />
+          <Property Name="seria" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_event_doctor">
+          <End Role="doctor" Type="Self.doctor" Multiplicity="0..1" />
+          <End Role="event" Type="Self.event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doctor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="event">
+              <PropertyRef Name="doctor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Host_pacient">
+          <End Role="pacient" Type="Self.pacient" Multiplicity="0..1" />
+          <End Role="Host" Type="Self.Host" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pacient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Host">
+              <PropertyRef Name="pacient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_med_card_med_history">
+          <End Role="med_history" Type="Self.med_history" Multiplicity="0..1" />
+          <End Role="med_card" Type="Self.med_card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="med_history">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="med_card">
+              <PropertyRef Name="med_history_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_med_card_pacient">
+          <End Role="pacient" Type="Self.pacient" Multiplicity="0..1" />
+          <End Role="med_card" Type="Self.med_card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pacient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="med_card">
+              <PropertyRef Name="pacient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_med_history_event">
+          <End Role="event" Type="Self.event" Multiplicity="0..1" />
+          <End Role="med_history" Type="Self.med_history" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="event">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="med_history">
+              <PropertyRef Name="event" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pacient_insurance_policy">
+          <End Role="insurance_policy" Type="Self.insurance_policy" Multiplicity="0..1" />
+          <End Role="pacient" Type="Self.pacient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="insurance_policy">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pacient">
+              <PropertyRef Name="insurance_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pacient_pasport">
+          <End Role="pasport" Type="Self.pasport" Multiplicity="0..1" />
+          <End Role="pacient" Type="Self.pacient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pasport">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pacient">
+              <PropertyRef Name="pasport_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище BaseModelContainer">
+          <EntitySet Name="doctor" EntityType="Self.doctor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="event" EntityType="Self.event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Host" EntityType="Self.Host" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="insurance_policy" EntityType="Self.insurance_policy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="med_card" EntityType="Self.med_card" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="med_history" EntityType="Self.med_history" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="pacient" EntityType="Self.pacient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="pasport" EntityType="Self.pasport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_event_doctor" Association="Self.FK_event_doctor">
+            <End Role="doctor" EntitySet="doctor" />
+            <End Role="event" EntitySet="event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Host_pacient" Association="Self.FK_Host_pacient">
+            <End Role="pacient" EntitySet="pacient" />
+            <End Role="Host" EntitySet="Host" />
+          </AssociationSet>
+          <AssociationSet Name="FK_med_card_med_history" Association="Self.FK_med_card_med_history">
+            <End Role="med_history" EntitySet="med_history" />
+            <End Role="med_card" EntitySet="med_card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_med_card_pacient" Association="Self.FK_med_card_pacient">
+            <End Role="pacient" EntitySet="pacient" />
+            <End Role="med_card" EntitySet="med_card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_med_history_event" Association="Self.FK_med_history_event">
+            <End Role="event" EntitySet="event" />
+            <End Role="med_history" EntitySet="med_history" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pacient_insurance_policy" Association="Self.FK_pacient_insurance_policy">
+            <End Role="insurance_policy" EntitySet="insurance_policy" />
+            <End Role="pacient" EntitySet="pacient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pacient_pasport" Association="Self.FK_pacient_pasport">
+            <End Role="pasport" EntitySet="pasport" />
+            <End Role="pacient" EntitySet="pacient" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="doctor">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="35" FixedLength="false" Unicode="true" />
+          <Property Name="surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="father_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="event" Relationship="Self.FK_event_doctor" FromRole="doctor" ToRole="event" />
+        </EntityType>
+        <EntityType Name="event">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="doctor_id" Type="Int32" />
+          <Property Name="date_execution" Type="DateTime" Precision="0" />
+          <Property Name="result" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="recomendation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="doctor" Relationship="Self.FK_event_doctor" FromRole="event" ToRole="doctor" />
+          <NavigationProperty Name="med_history" Relationship="Self.FK_med_history_event" FromRole="event" ToRole="med_history" />
+        </EntityType>
+        <EntityType Name="Host">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pacient_id" Type="Int32" />
+          <NavigationProperty Name="pacient" Relationship="Self.FK_Host_pacient" FromRole="Host" ToRole="pacient" />
+          <Property Name="code" Type="Int32" />
+          <Property Name="dateTimeBegin" Type="DateTime" Precision="3" />
+          <Property Name="dateTimeEnd" Type="DateTime" Precision="3" />
+          <Property Name="departament" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="diagnos" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="goal" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="insurance_policy">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="number" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="date_endings" Type="DateTime" Precision="0" />
+          <Property Name="company" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="pacient" Relationship="Self.FK_pacient_insurance_policy" FromRole="insurance_policy" ToRole="pacient" />
+        </EntityType>
+        <EntityType Name="med_card">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pacient_id" Type="Int32" />
+          <Property Name="med_history_id" Type="Int32" />
+          <Property Name="number" Type="Int32" />
+          <Property Name="date_issuance" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="med_history" Relationship="Self.FK_med_card_med_history" FromRole="med_card" ToRole="med_history" />
+          <NavigationProperty Name="pacient" Relationship="Self.FK_med_card_pacient" FromRole="med_card" ToRole="pacient" />
+        </EntityType>
+        <EntityType Name="med_history">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="date_appeals" Type="DateTime" Precision="0" />
+          <Property Name="event" Type="Int32" />
+          <Property Name="diagnos" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="event1" Relationship="Self.FK_med_history_event" FromRole="med_history" ToRole="event" />
+          <NavigationProperty Name="med_card" Relationship="Self.FK_med_card_med_history" FromRole="med_history" ToRole="med_card" />
+        </EntityType>
+        <EntityType Name="pacient">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pasport_id" Type="Int32" />
+          <Property Name="insurance_id" Type="Int32" />
+          <Property Name="phone" Type="Int32" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="place_work" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Host" Relationship="Self.FK_Host_pacient" FromRole="pacient" ToRole="Host" />
+          <NavigationProperty Name="insurance_policy" Relationship="Self.FK_pacient_insurance_policy" FromRole="pacient" ToRole="insurance_policy" />
+          <NavigationProperty Name="med_card" Relationship="Self.FK_med_card_pacient" FromRole="pacient" ToRole="med_card" />
+          <NavigationProperty Name="pasport" Relationship="Self.FK_pacient_pasport" FromRole="pacient" ToRole="pasport" />
+        </EntityType>
+        <EntityType Name="pasport">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="35" FixedLength="false" Unicode="true" />
+          <Property Name="surname" Type="String" MaxLength="35" FixedLength="false" Unicode="true" />
+          <Property Name="father_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="date_birth" Type="DateTime" Precision="0" />
+          <Property Name="gender" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="number" Type="Int32" />
+          <Property Name="seria" Type="Int32" />
+          <NavigationProperty Name="pacient" Relationship="Self.FK_pacient_pasport" FromRole="pasport" ToRole="pacient" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_event_doctor">
+          <End Role="doctor" Type="Self.doctor" Multiplicity="0..1" />
+          <End Role="event" Type="Self.event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="doctor">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="event">
+              <PropertyRef Name="doctor_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_med_history_event">
+          <End Role="event" Type="Self.event" Multiplicity="0..1" />
+          <End Role="med_history" Type="Self.med_history" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="event">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="med_history">
+              <PropertyRef Name="event" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Host_pacient">
+          <End Role="pacient" Type="Self.pacient" Multiplicity="0..1" />
+          <End Role="Host" Type="Self.Host" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pacient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Host">
+              <PropertyRef Name="pacient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pacient_insurance_policy">
+          <End Role="insurance_policy" Type="Self.insurance_policy" Multiplicity="0..1" />
+          <End Role="pacient" Type="Self.pacient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="insurance_policy">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pacient">
+              <PropertyRef Name="insurance_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_med_card_med_history">
+          <End Role="med_history" Type="Self.med_history" Multiplicity="0..1" />
+          <End Role="med_card" Type="Self.med_card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="med_history">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="med_card">
+              <PropertyRef Name="med_history_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_med_card_pacient">
+          <End Role="pacient" Type="Self.pacient" Multiplicity="0..1" />
+          <End Role="med_card" Type="Self.med_card" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pacient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="med_card">
+              <PropertyRef Name="pacient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_pacient_pasport">
+          <End Role="pasport" Type="Self.pasport" Multiplicity="0..1" />
+          <End Role="pacient" Type="Self.pacient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="pasport">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pacient">
+              <PropertyRef Name="pasport_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="testEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="doctor" EntityType="Self.doctor" />
+          <EntitySet Name="event" EntityType="Self.event" />
+          <EntitySet Name="Host" EntityType="Self.Host" />
+          <EntitySet Name="insurance_policy" EntityType="Self.insurance_policy" />
+          <EntitySet Name="med_card" EntityType="Self.med_card" />
+          <EntitySet Name="med_history" EntityType="Self.med_history" />
+          <EntitySet Name="pacient" EntityType="Self.pacient" />
+          <EntitySet Name="pasport" EntityType="Self.pasport" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="FK_event_doctor" Association="Self.FK_event_doctor">
+            <End Role="doctor" EntitySet="doctor" />
+            <End Role="event" EntitySet="event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_med_history_event" Association="Self.FK_med_history_event">
+            <End Role="event" EntitySet="event" />
+            <End Role="med_history" EntitySet="med_history" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Host_pacient" Association="Self.FK_Host_pacient">
+            <End Role="pacient" EntitySet="pacient" />
+            <End Role="Host" EntitySet="Host" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pacient_insurance_policy" Association="Self.FK_pacient_insurance_policy">
+            <End Role="insurance_policy" EntitySet="insurance_policy" />
+            <End Role="pacient" EntitySet="pacient" />
+          </AssociationSet>
+          <AssociationSet Name="FK_med_card_med_history" Association="Self.FK_med_card_med_history">
+            <End Role="med_history" EntitySet="med_history" />
+            <End Role="med_card" EntitySet="med_card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_med_card_pacient" Association="Self.FK_med_card_pacient">
+            <End Role="pacient" EntitySet="pacient" />
+            <End Role="med_card" EntitySet="med_card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_pacient_pasport" Association="Self.FK_pacient_pasport">
+            <End Role="pasport" EntitySet="pasport" />
+            <End Role="pacient" EntitySet="pacient" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище BaseModelContainer" CdmEntityContainer="testEntities1">
+          <EntitySetMapping Name="doctor">
+            <EntityTypeMapping TypeName="BaseModel.doctor">
+              <MappingFragment StoreEntitySet="doctor">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="father_name" ColumnName="father_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="event">
+            <EntityTypeMapping TypeName="BaseModel.event">
+              <MappingFragment StoreEntitySet="event">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="doctor_id" ColumnName="doctor_id" />
+                <ScalarProperty Name="date_execution" ColumnName="date_execution" />
+                <ScalarProperty Name="result" ColumnName="result" />
+                <ScalarProperty Name="recomendation" ColumnName="recomendation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Host">
+            <EntityTypeMapping TypeName="BaseModel.Host">
+              <MappingFragment StoreEntitySet="Host">
+                <ScalarProperty Name="goal" ColumnName="goal" />
+                <ScalarProperty Name="diagnos" ColumnName="diagnos" />
+                <ScalarProperty Name="departament" ColumnName="departament" />
+                <ScalarProperty Name="dateTimeEnd" ColumnName="dateTimeEnd" />
+                <ScalarProperty Name="dateTimeBegin" ColumnName="dateTimeBegin" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="pacient_id" ColumnName="pacient_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="insurance_policy">
+            <EntityTypeMapping TypeName="BaseModel.insurance_policy">
+              <MappingFragment StoreEntitySet="insurance_policy">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="date_endings" ColumnName="date_endings" />
+                <ScalarProperty Name="company" ColumnName="company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="med_card">
+            <EntityTypeMapping TypeName="BaseModel.med_card">
+              <MappingFragment StoreEntitySet="med_card">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="pacient_id" ColumnName="pacient_id" />
+                <ScalarProperty Name="med_history_id" ColumnName="med_history_id" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="date_issuance" ColumnName="date_issuance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="med_history">
+            <EntityTypeMapping TypeName="BaseModel.med_history">
+              <MappingFragment StoreEntitySet="med_history">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="date_appeals" ColumnName="date_appeals" />
+                <ScalarProperty Name="event" ColumnName="event" />
+                <ScalarProperty Name="diagnos" ColumnName="diagnos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pacient">
+            <EntityTypeMapping TypeName="BaseModel.pacient">
+              <MappingFragment StoreEntitySet="pacient">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="pasport_id" ColumnName="pasport_id" />
+                <ScalarProperty Name="insurance_id" ColumnName="insurance_id" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="place_work" ColumnName="place_work" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="pasport">
+            <EntityTypeMapping TypeName="BaseModel.pasport">
+              <MappingFragment StoreEntitySet="pasport">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="father_name" ColumnName="father_name" />
+                <ScalarProperty Name="date_birth" ColumnName="date_birth" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="seria" ColumnName="seria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="BaseModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

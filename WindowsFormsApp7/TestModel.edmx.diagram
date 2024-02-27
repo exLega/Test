@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f15c54c3c8b94c4d96a0e18966edcd2e" Name="Diagram1">
+        <EntityTypeShape EntityType="TestModel.doctor" Width="1.5" PointX="1.5" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.event" Width="1.5" PointX="3.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.Host" Width="1.5" PointX="5.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.insurance_policy" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.med_card" Width="1.5" PointX="8.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.med_history" Width="1.5" PointX="6" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.pacient" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.pasport" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.sysdiagrams" Width="1.5" PointX="8.75" PointY="8.875" IsExpanded="true" />
+        <AssociationConnector Association="TestModel.FK_event_doctor" ManuallyRouted="false" />
+        <AssociationConnector Association="TestModel.FK_med_history_event" ManuallyRouted="false" />
+        <AssociationConnector Association="TestModel.FK_Host_pacient" ManuallyRouted="false" />
+        <AssociationConnector Association="TestModel.FK_pacient_insurance_policy" ManuallyRouted="false" />
+        <AssociationConnector Association="TestModel.FK_med_card_med_history" ManuallyRouted="false" />
+        <AssociationConnector Association="TestModel.FK_med_card_pacient" ManuallyRouted="false" />
+        <AssociationConnector Association="TestModel.FK_pacient_pasport" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
